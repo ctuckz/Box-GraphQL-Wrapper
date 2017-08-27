@@ -17,6 +17,7 @@ using BoxGraphQLWrapper.GraphQL;
 using GraphQL;
 using Box_GraphQL_Wrapper.Interfaces;
 using GraphQL.Http;
+using Microsoft.Extensions.Logging;
 
 namespace BoxGraphQLWrapper.Controllers
 {
@@ -26,22 +27,37 @@ namespace BoxGraphQLWrapper.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        public GraphQLController(IFolderService folderService)
+        public GraphQLController(IFolderService folderService, IItemService itemService, ILogger<GraphQLController> logger)
         {
             FolderService = folderService ?? throw new ArgumentNullException(nameof(folderService), $"{nameof(IFolderService)} not configured.");
+            ItemService = itemService ?? throw new ArgumentNullException(nameof(itemService), $"{nameof(IItemService)} not configured.");
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger), $"{nameof(ILogger<GraphQLController>)} not configured.");
         }
 
         private IFolderService FolderService { get; }
+        private IItemService ItemService { get; }
+        private ILogger<GraphQLController> Logger { get; }
 
         [HttpPost]
-        public async Task<string> GraphQL([FromBody] string query)
+        public async Task<string> GraphQL([FromBody] string query, [FromServices] IServiceProvider serviceProvider)
         {
-            Schema schema = new Schema { Query = new BoxQuery(FolderService) };
+            Schema schema = new Schema((type) => (IGraphType)serviceProvider.GetService(type))
+            {
+                Query = new BoxQuery(FolderService, ItemService)
+            };
             ExecutionResult result = await new DocumentExecuter().ExecuteAsync(config =>
             {
                 config.Schema = schema;
                 config.Query = query;
             }).ConfigureAwait(false);
+
+            if(result.Errors != null)
+            {
+                foreach(ExecutionError error in result.Errors)
+                {
+                    Logger.LogError(error.ToString());
+                }
+            }
 
             return new DocumentWriter(indent: true).Write(result);
         }

@@ -6,6 +6,7 @@ using Box_GraphQL_Wrapper.Interfaces;
 using BoxGraphQLWrapper.Backend;
 using BoxGraphQLWrapper.Configuration;
 using BoxGraphQLWrapper.Formatters;
+using BoxGraphQLWrapper.GraphQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +22,7 @@ namespace BoxGraphQLWrapper
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("authKeys.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -33,6 +34,7 @@ namespace BoxGraphQLWrapper
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureBoxServices(services);
+            ConfigureGraphQLServices(services);
 
             // Add framework services.
             services.AddMvc(options =>
@@ -56,6 +58,14 @@ namespace BoxGraphQLWrapper
             services.AddSingleton<IClientService, ClientService>();
 
             services.AddTransient<IFolderService, FolderService>();
+            services.AddTransient<IItemService, ItemService>();
+        }
+
+        private void ConfigureGraphQLServices(IServiceCollection services)
+        {
+            // Add graphql services here that need DI
+            services.AddTransient<FolderType>();
+            services.AddTransient<ItemType>();
         }
     }
 }

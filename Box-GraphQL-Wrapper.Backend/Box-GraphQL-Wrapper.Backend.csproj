@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="ClientService.cs" />
     <Compile Include="FolderService.cs" />
+    <Compile Include="ItemService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

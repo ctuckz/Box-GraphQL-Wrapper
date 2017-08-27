@@ -61,6 +61,7 @@
     <Compile Include="IAuthenticationConfiguration.cs" />
     <Compile Include="IClientService.cs" />
     <Compile Include="IFolderService.cs" />
+    <Compile Include="IItemService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
