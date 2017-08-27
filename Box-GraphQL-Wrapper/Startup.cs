@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Backend;
+using BoxGraphQLWrapper.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Box_GraphQL_Wrapper
+namespace BoxGraphQLWrapper
 {
     public class Startup
     {
@@ -27,6 +30,11 @@ namespace Box_GraphQL_Wrapper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+            services.Configure<AuthenticationConfiguration>(Configuration.GetSection("auth"));
+
+            ConfigureBoxServices(services);
+
             // Add framework services.
             services.AddMvc();
         }
@@ -38,6 +46,13 @@ namespace Box_GraphQL_Wrapper
             loggerFactory.AddDebug();
 
             app.UseMvc();
+        }
+
+        private static void ConfigureBoxServices(IServiceCollection services)
+        {
+            services.AddSingleton<IClientService, ClientService>();
+            services.AddTransient<IFolderService, FolderService>();
+
         }
     }
 }
