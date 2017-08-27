@@ -15,6 +15,7 @@ namespace BoxGraphQLWrapper.GraphQL
         {
             Field(x => x.Id).Description("The folder's ID");
             Field(x => x.Name).Description("The folder's name");
+            // Lazy load items - reduces response size
             Field<ListGraphType<ItemType>>("items", resolve: context => itemService.GetItems(context.Source.Id));
         }
     }

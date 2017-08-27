@@ -27,15 +27,17 @@ namespace BoxGraphQLWrapper.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        public GraphQLController(IFolderService folderService, IItemService itemService, ILogger<GraphQLController> logger)
+        public GraphQLController(IFolderService folderService, IItemService itemService, IUserService userService, ILogger<GraphQLController> logger)
         {
             FolderService = folderService ?? throw new ArgumentNullException(nameof(folderService), $"{nameof(IFolderService)} not configured.");
             ItemService = itemService ?? throw new ArgumentNullException(nameof(itemService), $"{nameof(IItemService)} not configured.");
+            UserService = userService ?? throw new ArgumentNullException(nameof(userService), $"{nameof(IUserService)} not configured.");
             Logger = logger ?? throw new ArgumentNullException(nameof(logger), $"{nameof(ILogger<GraphQLController>)} not configured.");
         }
 
         private IFolderService FolderService { get; }
         private IItemService ItemService { get; }
+        private IUserService UserService { get; }
         private ILogger<GraphQLController> Logger { get; }
 
         [HttpPost]
@@ -43,7 +45,7 @@ namespace BoxGraphQLWrapper.Controllers
         {
             Schema schema = new Schema((type) => (IGraphType)serviceProvider.GetService(type))
             {
-                Query = new BoxQuery(FolderService, ItemService)
+                Query = new BoxQuery(FolderService, ItemService, UserService)
             };
             ExecutionResult result = await new DocumentExecuter().ExecuteAsync(config =>
             {
