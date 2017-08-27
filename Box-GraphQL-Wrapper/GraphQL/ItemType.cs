@@ -16,6 +16,9 @@ namespace BoxGraphQLWrapper.GraphQL
             Field<IntGraphType>("size", description: "The item's size", resolve: context => context.Source.Size);
             Field<StringGraphType>("description", description: "The item's description", resolve: context => context.Source.Description);
             Field<ListGraphType<StringGraphType>>("tags", description: "The item's tags", resolve: context => context.Source.Tags);
+            Field<DateGraphType>("createdAt", description: "The date which the item was created", resolve: context => context.Source.CreatedAt);
+            Field<DateGraphType>("modifiedAt", description: "The date which the item was modified", resolve: context => context.Source.ModifiedAt);
+            Field<FolderType>("parent", description: "The parent folder of this item", resolve: context => context.Source.Parent);
         }
     }
 }

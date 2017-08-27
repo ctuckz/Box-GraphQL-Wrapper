@@ -15,7 +15,7 @@ namespace BoxGraphQLWrapper.GraphQL
         {
             Field(x => x.Id).Description("The folder's ID");
             Field(x => x.Name).Description("The folder's name");
-            Field<ListGraphType<ItemType>>("itemCollection", resolve: context => itemService.GetItems(context.Source.Id));
+            Field<ListGraphType<ItemType>>("items", resolve: context => itemService.GetItems(context.Source.Id));
         }
     }
 }

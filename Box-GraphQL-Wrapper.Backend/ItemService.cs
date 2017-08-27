@@ -26,7 +26,14 @@ namespace BoxGraphQLWrapper.Backend
             if(parentFolderId != null)
             {
                 items = await client.FoldersManager.GetFolderItemsAsync(parentFolderId, 500, 
-                    fields: new[] { BoxFolder.FieldDescription, BoxFolder.FieldName, BoxFolder.FieldSize, BoxFolder.FieldTags });
+                    fields: new[] {
+                        BoxItem.FieldDescription,
+                        BoxItem.FieldName,
+                        BoxItem.FieldSize,
+                        BoxItem.FieldTags,
+                        BoxItem.FieldCreatedAt,
+                        BoxItem.FieldModifiedAt,
+                        BoxItem.FieldParent });
             }
 
             return items.Entries;
