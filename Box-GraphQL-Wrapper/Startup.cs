@@ -66,6 +66,7 @@ namespace BoxGraphQLWrapper
             // Add graphql services here that need DI
             services.AddTransient<FolderType>();
             services.AddTransient<ItemType>();
+            services.AddTransient<UserType>();
         }
     }
 }

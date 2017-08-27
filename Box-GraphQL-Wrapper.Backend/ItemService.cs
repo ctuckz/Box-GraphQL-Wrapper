@@ -33,7 +33,10 @@ namespace BoxGraphQLWrapper.Backend
                         BoxItem.FieldTags,
                         BoxItem.FieldCreatedAt,
                         BoxItem.FieldModifiedAt,
-                        BoxItem.FieldParent });
+                        BoxItem.FieldParent,
+                        BoxItem.FieldCreatedBy,
+                        BoxItem.FieldModifiedBy,
+                        BoxItem.FieldOwnedBy});
             }
 
             return items.Entries;

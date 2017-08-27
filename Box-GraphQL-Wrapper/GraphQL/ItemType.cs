@@ -19,6 +19,9 @@ namespace BoxGraphQLWrapper.GraphQL
             Field<DateGraphType>("createdAt", description: "The date which the item was created", resolve: context => context.Source.CreatedAt);
             Field<DateGraphType>("modifiedAt", description: "The date which the item was modified", resolve: context => context.Source.ModifiedAt);
             Field<FolderType>("parent", description: "The parent folder of this item", resolve: context => context.Source.Parent);
+            Field<UserType>("ownedBy", description: "The user who owns this item", resolve: context => context.Source.OwnedBy);
+            Field<UserType>("createdBy", description: "The user who created this item", resolve: context => context.Source.CreatedBy);
+            Field<UserType>("modifiedBy", description: "The user who modified this item", resolve: context => context.Source.ModifiedBy);
         }
     }
 }
