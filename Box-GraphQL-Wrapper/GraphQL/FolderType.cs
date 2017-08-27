@@ -8,7 +8,7 @@ using GraphQL.Types;
 
 namespace BoxGraphQLWrapper.GraphQL
 {
-    class FolderType : ObjectGraphType<BoxFolder>
+    internal class FolderType : ObjectGraphType<BoxFolder>
     {
         public FolderType()
         {

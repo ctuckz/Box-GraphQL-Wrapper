@@ -12,6 +12,11 @@ using BoxGraphQLWrapper.Configuration;
 using Microsoft.Extensions.Options;
 using Box.V2.Models;
 using System.Net.Http;
+using GraphQL.Types;
+using BoxGraphQLWrapper.GraphQL;
+using GraphQL;
+using Box_GraphQL_Wrapper.Interfaces;
+using GraphQL.Http;
 
 namespace BoxGraphQLWrapper.Controllers
 {
@@ -21,32 +26,24 @@ namespace BoxGraphQLWrapper.Controllers
     {
         private static HttpClient client = new HttpClient();
 
-        public GraphQLController(IOptions<AuthenticationConfiguration> authConfig)
+        public GraphQLController(IFolderService folderService)
         {
-            AuthConfig = authConfig.Value;
+            FolderService = folderService ?? throw new ArgumentNullException(nameof(folderService), $"{nameof(IFolderService)} not configured.");
         }
 
-        private AuthenticationConfiguration AuthConfig { get; }
+        private IFolderService FolderService { get; }
 
         [HttpPost]
-        public async Task<IEnumerable<string>> GraphQL()
+        public async Task<string> GraphQL([FromBody] string query)
         {
-            List<string> ids = new List<string>();
-
-            BoxConfig config = new BoxConfig(AuthConfig.ClientId, AuthConfig.ClientSecret, new Uri("http://localhost"));
-            OAuthSession session = new OAuthSession(AuthConfig.DeveloperToken, "NOT_NEEDED", 3600, "bearer");
-            BoxClient client = new BoxClient(config, session);
-
-            try
+            Schema schema = new Schema { Query = new BoxQuery(FolderService) };
+            ExecutionResult result = await new DocumentExecuter().ExecuteAsync(config =>
             {
-                BoxFile file = await client.FilesManager.GetInformationAsync("215999320939");
-                return new[] { file.Id };
-            }
-            catch (Exception ex)
-            {
+                config.Schema = schema;
+                config.Query = query;
+            }).ConfigureAwait(false);
 
-            }
-            return new[] { "error" };
+            return new DocumentWriter(indent: true).Write(result);
         }
     }
 }

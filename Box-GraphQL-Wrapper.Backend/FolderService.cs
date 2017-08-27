@@ -6,14 +6,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Box.V2;
 
 namespace BoxGraphQLWrapper.Backend
 {
     public class FolderService : IFolderService
     {
-        public BoxFolder GetFolderByIdOrName(string id, string name)
+        public FolderService(IClientService clientService)
         {
-            throw new NotImplementedException();
+            ClientService = clientService ?? throw new ArgumentNullException(nameof(clientService), $"{nameof(IClientService)} not initialized.");
+        }
+
+        private IClientService ClientService { get; }
+
+        public async Task<BoxFolder> GetFolderById(string id)
+        {
+            BoxClient client = ClientService.GetClient();
+
+            BoxFolder folder = null;
+            if(id != null)
+            {
+                folder = await client.FoldersManager.GetInformationAsync(id);
+            }
+
+            return folder;
         }
     }
 }

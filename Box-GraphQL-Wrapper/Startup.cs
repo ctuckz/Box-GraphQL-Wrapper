@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Box_GraphQL_Wrapper.Interfaces;
 using BoxGraphQLWrapper.Backend;
 using BoxGraphQLWrapper.Configuration;
+using BoxGraphQLWrapper.Formatters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,7 @@ namespace BoxGraphQLWrapper
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddJsonFile("authKeys.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -31,13 +32,13 @@ namespace BoxGraphQLWrapper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddOptions();
-            services.Configure<AuthenticationConfiguration>(Configuration.GetSection("auth"));
-
             ConfigureBoxServices(services);
 
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.InputFormatters.Add(new GraphQLFormatter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,11 +50,12 @@ namespace BoxGraphQLWrapper
             app.UseMvc();
         }
 
-        private static void ConfigureBoxServices(IServiceCollection services)
+        private void ConfigureBoxServices(IServiceCollection services)
         {
+            services.AddSingleton<IAuthenticationConfiguration, AuthenticationConfiguration>(sp => new AuthenticationConfiguration(Configuration));
             services.AddSingleton<IClientService, ClientService>();
-            services.AddTransient<IFolderService, FolderService>();
 
+            services.AddTransient<IFolderService, FolderService>();
         }
     }
 }
