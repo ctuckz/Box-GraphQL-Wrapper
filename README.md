@@ -23,7 +23,8 @@ Client IDs, secrets, and developer tokens can be found by registering an app at 
 ## Usage
 
 All requests to the API should be POSTed to the `api/graphql` endpoint. Requests use the 
-`application/graphQL` media type, and responses are in JSON.
+`application/graphQL` media type, and responses are in JSON. If you're not sure how to read this
+schema, you can learn about it [here](http://graphql.org/learn/schema/).
 
 #### Folder
 ```
