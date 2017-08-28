@@ -1,5 +1,5 @@
 # Box GraphQL Wrapper
-Wraps the Box API in a GraphQL endpoint - `api/graphql`
+Wraps the Box API in a [GraphQL](http://graphql.org/) endpoint - `/api/graphql`
 
 ## Building the Project
 This project requires several keys to authenticate with the Box API. In order to add the keys
@@ -41,6 +41,10 @@ description: String
 tags: [String]
 createdAt: Date
 modifiedAt: Date
+parent: Folder
+ownedBy: User
+createdBy: User
+modifiedBy: User
 ```
 
 #### User
@@ -67,24 +71,31 @@ login: String
 ```
 
 ### Sample Requests
+All requests should be sent to the `/api/graphql` endpoint using the `POST` verb. The
+content-type of the request must be `application/graphQL`.
+
 These requests are just samples - fields can be added or removed from them as needed.
 See the Usage section above for all available fields on each type.
+
+For more information on GraphQL, visit [here](http://graphql.org/learn/).
+
+To learn more about the Box API, visit [here](https://developer.box.com/docs)
 
 #### Get a folder and its conents
 ```
 query {
-  folder(id: "123") {
-    id
-    name
-    items {
-      id
-      name
-      description
-      tags
-      size
-      createdAt
-   }
-  }
+    folder(id: "123") {
+        id
+        name
+        items {
+            id
+            name
+            description
+            tags
+            size
+            createdAt
+        }
+    }
 }
 ```
 
@@ -117,12 +128,12 @@ query {
 ```
 query {
     user(id: "123") {
-            id
-            name
-            login
-            createdAt
-            language
-            status
+        id
+        name
+        login
+        createdAt
+        language
+        status
     }
 }
 ```
