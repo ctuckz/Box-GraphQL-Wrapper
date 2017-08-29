@@ -67,7 +67,7 @@ namespace BoxGraphQLWrapper
             services.AddTransient<IUserService, UserService>();
         }
 
-        private void ConfigureGraphQLServices(IServiceCollection services)
+        private static void ConfigureGraphQLServices(IServiceCollection services)
         {
             // Add all GraphQL *Type objects here. This allows us to DI services into them.
             services.AddTransient<FolderType>();
