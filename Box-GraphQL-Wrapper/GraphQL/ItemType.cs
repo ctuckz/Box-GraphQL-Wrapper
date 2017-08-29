@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Models;
+using Box_GraphQL_Wrapper.Interfaces;
 using GraphQL.Types;
 
 namespace BoxGraphQLWrapper.GraphQL
 {
     internal class ItemType : ObjectGraphType<BoxItem>
     {
-        public ItemType()
+        public ItemType(IUserService userService)
         {
             Field(x => x.Id).Description("The item's ID");
             Field(x => x.Name).Description("The item's name");
@@ -19,10 +20,9 @@ namespace BoxGraphQLWrapper.GraphQL
             Field<DateGraphType>("createdAt", description: "The date which the item was created", resolve: context => context.Source.CreatedAt);
             Field<DateGraphType>("modifiedAt", description: "The date which the item was modified", resolve: context => context.Source.ModifiedAt);
             Field<FolderType>("parent", description: "The parent folder of this item", resolve: context => context.Source.Parent);
-            // TODO: use UserService to lazy load these properties
-            Field<UserType>("ownedBy", description: "The user who owns this item", resolve: context => context.Source.OwnedBy);
-            Field<UserType>("createdBy", description: "The user who created this item", resolve: context => context.Source.CreatedBy);
-            Field<UserType>("modifiedBy", description: "The user who modified this item", resolve: context => context.Source.ModifiedBy);
+            Field<UserType>("ownedBy", description: "The user who owns this item", resolve: context => userService.GetUserById(context.Source.OwnedBy?.Id));
+            Field<UserType>("createdBy", description: "The user who created this item", resolve: context => userService.GetUserById(context.Source.CreatedBy?.Id));
+            Field<UserType>("modifiedBy", description: "The user who modified this item", resolve: context => userService.GetUserById(context.Source.ModifiedBy?.Id));
         }
     }
 }
