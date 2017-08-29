@@ -14,15 +14,16 @@ namespace BoxGraphQLWrapper.Backend
     {
         public ClientService(IAuthenticationConfiguration authConfig)
         {
-            AuthConfig = authConfig 
-                ?? throw new ArgumentNullException(nameof(authConfig), $"{nameof(IAuthenticationConfiguration)} was not configured.");
+            if (authConfig == null)
+            {
+                throw new ArgumentNullException(nameof(authConfig), $"{nameof(IAuthenticationConfiguration)} was not configured.");
+            }
 
-            BoxConfig config = new BoxConfig(AuthConfig.ClientId, AuthConfig.ClientSecret, new Uri("http://localhost"));
-            OAuthSession session = new OAuthSession(AuthConfig.DeveloperToken, "NOT_NEEDED", 3600, "bearer");
+            BoxConfig config = new BoxConfig(authConfig.ClientId, authConfig.ClientSecret, new Uri("http://localhost"));
+            OAuthSession session = new OAuthSession(authConfig.DeveloperToken, "NOT_NEEDED", 3600, "bearer");
             Client = new BoxClient(config, session);
         }
 
-        private IAuthenticationConfiguration AuthConfig { get; }
         private BoxClient Client { get; }
 
         public BoxClient GetClient()
