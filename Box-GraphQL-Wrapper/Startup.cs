@@ -30,7 +30,6 @@ namespace BoxGraphQLWrapper
 
         public IConfigurationRoot Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureBoxServices(services);
@@ -43,10 +42,16 @@ namespace BoxGraphQLWrapper
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            if (env.IsDevelopment())
+            {
+                loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            }
+            else
+            {
+                // TODO add faster logging for non-dev environments
+            }
             loggerFactory.AddDebug();
 
             app.UseMvc();
@@ -64,7 +69,7 @@ namespace BoxGraphQLWrapper
 
         private void ConfigureGraphQLServices(IServiceCollection services)
         {
-            // Add graphql services here that need DI
+            // Add all GraphQL *Type objects here. This allows us to DI services into them.
             services.AddTransient<FolderType>();
             services.AddTransient<ItemType>();
             services.AddTransient<UserType>();

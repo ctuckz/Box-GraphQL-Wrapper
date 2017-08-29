@@ -25,7 +25,7 @@ namespace BoxGraphQLWrapper.Backend
             BoxUser user = null;
             if(id != null)
             {
-                user = await client.UsersManager.GetUserInformationAsync(id);
+                user = await client.UsersManager.GetUserInformationAsync(id).ConfigureAwait(false);
             }
 
             return user;

@@ -26,7 +26,7 @@ namespace BoxGraphQLWrapper.Backend
             BoxFolder folder = null;
             if(id != null)
             {
-                folder = await client.FoldersManager.GetInformationAsync(id);
+                folder = await client.FoldersManager.GetInformationAsync(id).ConfigureAwait(false);
             }
 
             return folder;

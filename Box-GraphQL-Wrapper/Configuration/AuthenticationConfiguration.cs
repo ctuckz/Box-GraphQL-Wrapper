@@ -12,9 +12,9 @@ namespace BoxGraphQLWrapper.Configuration
         public AuthenticationConfiguration(IConfigurationRoot config)
         {
             IConfigurationSection configSection = config.GetSection("auth") ?? throw new InvalidOperationException("Could not find auth configuration.");
-            ClientId = configSection.GetValue<string>("clientId");
-            ClientSecret = configSection.GetValue<string>("clientSecret");
-            DeveloperToken = configSection.GetValue<string>("developerToken");
+            ClientId = configSection.GetValue<string>("clientId") ?? throw new InvalidOperationException("ClientId was not configured.");
+            ClientSecret = configSection.GetValue<string>("clientSecret") ?? throw new InvalidOperationException("ClientSecret was not configured.");
+            DeveloperToken = configSection.GetValue<string>("developerToken") ?? throw new InvalidOperationException("DeveloperToken was not configured.");
         }
 
         public string ClientId { get; }

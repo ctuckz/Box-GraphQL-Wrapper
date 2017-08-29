@@ -21,12 +21,9 @@ using Microsoft.Extensions.Logging;
 
 namespace BoxGraphQLWrapper.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/GraphQL")]
+    [Produces("application/json")]   
     public class GraphQLController : Controller
     {
-        private static HttpClient client = new HttpClient();
-
         public GraphQLController(IFolderService folderService, IItemService itemService, IUserService userService, ILogger<GraphQLController> logger)
         {
             FolderService = folderService ?? throw new ArgumentNullException(nameof(folderService), $"{nameof(IFolderService)} not configured.");
@@ -41,12 +38,14 @@ namespace BoxGraphQLWrapper.Controllers
         private ILogger<GraphQLController> Logger { get; }
 
         [HttpPost]
+        [Route("api/GraphQL")]
         public async Task<string> GraphQL([FromBody] string query, [FromServices] IServiceProvider serviceProvider)
         {
             Schema schema = new Schema((type) => (IGraphType)serviceProvider.GetService(type))
             {
                 Query = new BoxQuery(FolderService, ItemService, UserService)
             };
+
             ExecutionResult result = await new DocumentExecuter().ExecuteAsync(config =>
             {
                 config.Schema = schema;

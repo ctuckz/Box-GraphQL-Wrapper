@@ -25,7 +25,7 @@ namespace BoxGraphQLWrapper.Backend
             BoxCollection<BoxItem> items = null;
             if(parentFolderId != null)
             {
-                items = await client.FoldersManager.GetFolderItemsAsync(parentFolderId, 500, 
+                items = await client.FoldersManager.GetFolderItemsAsync(parentFolderId, 500,
                     fields: new[] {
                         BoxItem.FieldDescription,
                         BoxItem.FieldName,
@@ -36,7 +36,7 @@ namespace BoxGraphQLWrapper.Backend
                         BoxItem.FieldParent,
                         BoxItem.FieldCreatedBy,
                         BoxItem.FieldModifiedBy,
-                        BoxItem.FieldOwnedBy});
+                        BoxItem.FieldOwnedBy}).ConfigureAwait(false);
             }
 
             return items.Entries;
