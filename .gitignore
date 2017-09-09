@@ -262,3 +262,5 @@ __pycache__/
 
 # Authentication Keys
 Box-GraphQL-Wrapper/authKeys.json
+/.vscode/tasks.json
+/.vscode/launch.json

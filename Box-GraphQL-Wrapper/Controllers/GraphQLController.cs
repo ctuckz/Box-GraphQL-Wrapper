@@ -1,22 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-using Box.V2.Config;
-using Box.V2;
-using Box.V2.Auth;
-using BoxGraphQLWrapper.Configuration;
-using Microsoft.Extensions.Options;
-using Box.V2.Models;
-using System.Net.Http;
-using GraphQL.Types;
+using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.FieldMiddleware;
 using BoxGraphQLWrapper.GraphQL;
 using GraphQL;
-using Box_GraphQL_Wrapper.Interfaces;
 using GraphQL.Http;
+using GraphQL.Instrumentation;
+using GraphQL.Types;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 namespace BoxGraphQLWrapper.Controllers
@@ -50,6 +41,7 @@ namespace BoxGraphQLWrapper.Controllers
             {
                 config.Schema = schema;
                 config.Query = query;
+                config.FieldMiddleware.Use<AuthenticationErrorMiddleware>();
             }).ConfigureAwait(false);
 
             if(result.Errors != null)
