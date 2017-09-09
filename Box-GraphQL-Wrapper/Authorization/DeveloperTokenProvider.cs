@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 using Microsoft.AspNetCore.Http;
 
 namespace BoxGraphQLWrapper.Authorization

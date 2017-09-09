@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Box.V2.Models;
 
-namespace Box_GraphQL_Wrapper.Interfaces
+namespace BoxGraphQLWrapper.Interfaces
 {
     public interface IFolderService
     {

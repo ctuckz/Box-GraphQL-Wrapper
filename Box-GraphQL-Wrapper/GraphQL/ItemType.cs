@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Box.V2.Models;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 using GraphQL.Types;
 
 namespace BoxGraphQLWrapper.GraphQL

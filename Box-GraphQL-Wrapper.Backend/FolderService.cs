@@ -1,5 +1,5 @@
 ﻿using Box.V2.Models;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Models;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 
 namespace BoxGraphQLWrapper.Backend
 {

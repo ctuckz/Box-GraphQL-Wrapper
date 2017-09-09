@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Box.V2;
 using Box.V2.Auth;
 using Box.V2.Config;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 
 namespace BoxGraphQLWrapper.Backend
 {

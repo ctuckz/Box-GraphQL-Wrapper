@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Interfaces;
 using BoxGraphQLWrapper.Authorization;
 using BoxGraphQLWrapper.Backend;
 using BoxGraphQLWrapper.Configuration;

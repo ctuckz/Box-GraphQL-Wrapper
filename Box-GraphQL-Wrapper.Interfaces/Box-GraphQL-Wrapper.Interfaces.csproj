@@ -7,7 +7,7 @@
     <ProjectGuid>{B926FEFF-F410-41BE-BEA7-CBB457B94730}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Box_GraphQL_Wrapper.Interfaces</RootNamespace>
+    <RootNamespace>BoxGraphQLWrapper.Interfaces</RootNamespace>
     <AssemblyName>Box-GraphQL-Wrapper.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
