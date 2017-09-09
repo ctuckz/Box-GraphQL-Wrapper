@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Box_GraphQL_Wrapper.Interfaces
 {
-    public interface IAuthenticationConfiguration
+    public interface IDeveloperTokenProvider
     {
-        string ClientId { get; }
-        string ClientSecret { get; }
+        bool TryGetDeveloperToken(out string token);
     }
 }

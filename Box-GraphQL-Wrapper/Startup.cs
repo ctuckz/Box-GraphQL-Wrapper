@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Box_GraphQL_Wrapper.Interfaces;
+using BoxGraphQLWrapper.Authorization;
 using BoxGraphQLWrapper.Backend;
 using BoxGraphQLWrapper.Configuration;
 using BoxGraphQLWrapper.Formatters;
 using BoxGraphQLWrapper.GraphQL;
+using BoxGraphQLWrapper.Middleware.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -54,6 +57,7 @@ namespace BoxGraphQLWrapper
             }
             loggerFactory.AddDebug();
 
+            app.UseMiddleware<DeveloperTokenAuthenticationMiddleware>();
             app.UseMvc();
         }
 
@@ -61,6 +65,8 @@ namespace BoxGraphQLWrapper
         {
             services.AddSingleton<IAuthenticationConfiguration, AuthenticationConfiguration>(sp => new AuthenticationConfiguration(Configuration));
             services.AddSingleton<IClientService, ClientService>();
+            services.AddScoped<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IDeveloperTokenProvider, DeveloperTokenProvider>();
 
             services.AddTransient<IFolderService, FolderService>();
             services.AddTransient<IItemService, ItemService>();

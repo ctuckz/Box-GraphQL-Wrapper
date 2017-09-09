@@ -9,22 +9,28 @@ look like:
 {
   "auth": {
     "clientId": {YourClientId},
-    "clientSecret": {YourClientSecret},
-    "developerToken": {YourDeveloperToken}
+    "clientSecret": {YourClientSecret}
   }
 }
 ```
-
-The use of the developer token in `authKeys` is temporary. It will be eventually replaced by real
-authentication using the `Authorization` header.
 
 Client IDs, secrets, and developer tokens can be found by registering an app at https://developer.box.com/.
 
 ## Usage
 
 All requests to the API should be POSTed to the `api/graphql` endpoint. Requests use the 
-`application/graphQL` media type, and responses are in JSON. If you're not sure how to read this
-schema, you can learn about it [here](http://graphql.org/learn/schema/).
+`application/graphQL` media type, and responses are in JSON. 
+
+### Authorization
+
+The API supports authenticating via developer token. The token can be sent to the server by adding
+the header `Authorization: Developer {token}`. Developer tokens can be generated at https://developer.box.com/.
+
+### Schema
+
+If you're not sure how to read this schema, you can learn about it 
+[here](http://graphql.org/learn/schema/).
+
 
 #### Folder
 ```

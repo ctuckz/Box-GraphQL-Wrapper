@@ -7,7 +7,7 @@ using GraphQL;
 using GraphQL.Instrumentation;
 using GraphQL.Types;
 
-namespace BoxGraphQLWrapper.FieldMiddleware
+namespace BoxGraphQLWrapper.Middleware.FieldMiddleware
 {
     public class AuthenticationErrorMiddleware
     {

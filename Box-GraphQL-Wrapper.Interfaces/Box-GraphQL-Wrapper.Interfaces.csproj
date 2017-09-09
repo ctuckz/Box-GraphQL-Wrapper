@@ -58,8 +58,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationTypes.cs" />
     <Compile Include="IAuthenticationConfiguration.cs" />
     <Compile Include="IClientService.cs" />
+    <Compile Include="IDeveloperTokenProvider.cs" />
     <Compile Include="IFolderService.cs" />
     <Compile Include="IItemService.cs" />
     <Compile Include="IUserService.cs" />

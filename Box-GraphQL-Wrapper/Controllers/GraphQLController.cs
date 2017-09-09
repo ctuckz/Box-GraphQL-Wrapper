@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Box_GraphQL_Wrapper.Interfaces;
-using BoxGraphQLWrapper.FieldMiddleware;
+using BoxGraphQLWrapper.Middleware.FieldMiddleware;
 using BoxGraphQLWrapper.GraphQL;
 using GraphQL;
 using GraphQL.Http;
