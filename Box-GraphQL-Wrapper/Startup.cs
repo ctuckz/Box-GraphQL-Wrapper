@@ -71,6 +71,7 @@ namespace BoxGraphQLWrapper
             services.AddTransient<IFolderService, FolderService>();
             services.AddTransient<IItemService, ItemService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IItemContentService, ItemContentService>();
         }
 
         private static void ConfigureGraphQLServices(IServiceCollection services)

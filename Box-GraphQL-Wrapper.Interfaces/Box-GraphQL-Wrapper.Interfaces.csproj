@@ -63,6 +63,7 @@
     <Compile Include="IClientService.cs" />
     <Compile Include="IDeveloperTokenProvider.cs" />
     <Compile Include="IFolderService.cs" />
+    <Compile Include="IItemContentService.cs" />
     <Compile Include="IItemService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

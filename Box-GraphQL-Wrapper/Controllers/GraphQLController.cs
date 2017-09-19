@@ -51,7 +51,7 @@ namespace BoxGraphQLWrapper.Controllers
                     Logger.LogError(error.ToString());
                 }
             }
-
+            
             return new DocumentWriter(indent: true).Write(result);
         }
     }
