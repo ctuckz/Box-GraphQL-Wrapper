@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BoxGraphQLWrapper.Interfaces;
 using BoxGraphQLWrapper.Backend;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace BoxGraphQLWrapper.Middleware.Authentication
 {
@@ -14,12 +15,14 @@ namespace BoxGraphQLWrapper.Middleware.Authentication
     {
         private const string DeveloperSchemeName = "Developer";
 
-        public DeveloperTokenAuthenticationMiddleware(RequestDelegate next)
+        public DeveloperTokenAuthenticationMiddleware(RequestDelegate next, ILogger<DeveloperTokenAuthenticationMiddleware> logger)
         {
             Next = next ?? throw new ArgumentNullException(nameof(next));
+            Logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         private RequestDelegate Next { get; }
+        private ILogger<DeveloperTokenAuthenticationMiddleware> Logger { get; }
 
         public async Task Invoke(HttpContext context)
         {
@@ -29,6 +32,10 @@ namespace BoxGraphQLWrapper.Middleware.Authentication
                 string.Equals(authHeader.Scheme, DeveloperSchemeName, StringComparison.CurrentCultureIgnoreCase))
             {
                 AddClaimToPrincipal(context.User, authHeader.Parameter);
+            }
+            else
+            {
+                Logger.LogInformation("No Developer authentication header on request. Raw header: {rawHeader}", rawHeader);
             }
 
             await Next(context);
