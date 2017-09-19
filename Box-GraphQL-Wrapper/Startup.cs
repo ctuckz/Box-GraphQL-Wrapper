@@ -39,6 +39,7 @@ namespace BoxGraphQLWrapper
             ConfigureGraphQLServices(services);
 
             // Add framework services.
+            services.AddMemoryCache();
             services.AddMvc(options =>
             {
                 options.InputFormatters.Add(new GraphQLFormatter());
